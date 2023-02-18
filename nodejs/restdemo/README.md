@@ -1,4 +1,4 @@
-##To install this project\
+##To install this project
 
 `npm install`\
 `npm start`

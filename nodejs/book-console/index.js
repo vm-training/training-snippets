@@ -1,12 +1,11 @@
 
-const book = require('./book')
+const { createBook, updateBook, removeBook, listBook } = require('./book')
 
 const argv = require('yargs/yargs')(process.argv.slice(2))
     .command(
         'add',
         'To add book',
         function (yargs) {
-
             return yargs.options({
                 't': {
                     alias: 'title',
@@ -22,7 +21,29 @@ const argv = require('yargs/yargs')(process.argv.slice(2))
             })
         },
         function (argv) {
-            book.create(argv.title, argv.author)
+            createBook(argv.title, argv.author)
+        }
+    )
+    .command(
+        'update',
+        'To update book',
+        function (yargs) {
+            return yargs.options({
+                't': {
+                    alias: 'title',
+                    demandOption: true,
+                    describe: 'Title of the book'
+                },
+                'n': {
+                    alias: 'newtitle',
+                    demandOption: true,
+                    describe: 'New title of the book'
+                }
+
+            })
+        },
+        function (argv) {
+            updateBook(argv.title, argv.newtitle)
         }
     )
     .command(
@@ -32,7 +53,7 @@ const argv = require('yargs/yargs')(process.argv.slice(2))
             return
         },
         function (argv) {
-            book.list()
+            listBook()
         }
     )
     .command(
@@ -46,7 +67,7 @@ const argv = require('yargs/yargs')(process.argv.slice(2))
             })
         },
         function (argv) {
-            book.remove(argv.title)
+            removeBook(argv.title)
         }
     )
     .help()

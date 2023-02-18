@@ -16,8 +16,7 @@ const loadBook = () => {
     }
 }
 
-const addBook = (title, author) => {
-
+const createBook = (title, author) => {
     const books = loadBook()
     const duplicateBooks = books.filter((book) => book.title === title)
 
@@ -35,7 +34,6 @@ const addBook = (title, author) => {
     saveBook(books)
 }
 
-
 const listBook = () => {
     const books = loadBook()
     books.forEach(book => {
@@ -50,8 +48,30 @@ const removeBook = (title) => {
     saveBook(bookToKeep)
 }
 
+const updateBook = (title, newtitle) => {
+    let books = loadBook()
+    const duplicateBooks = books.filter((book) => book.title === newtitle)
+    const currentBook = books.filter((book) => book.title === title)
+    let author = currentBook[0].author
+    removeBook(title)
+    books = loadBook()
+    if (duplicateBooks.length === 0) {
+        books.push({
+            title: newtitle,
+            author: author
+        })
+        console.log(`"${title}" book updated with ${newtitle}.`)
+    }
+    else {
+        console.log('Duplicate book title!')
+    }
+
+    saveBook(books)
+}
+
 module.exports = {
-    create: addBook,
-    remove: removeBook,
-    list: listBook
+    createBook,
+    updateBook,
+    removeBook,
+    listBook
 }
